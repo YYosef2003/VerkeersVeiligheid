@@ -19,7 +19,7 @@
     </nav>
 </header>
 
-<main class="content">
+<main class="content">  
 
     <!-- GAME MENU -->
     <section id="game-select" class="game-selection">
@@ -48,6 +48,7 @@
     <section id="game-area" class="game-container" style="display:none;">
 
         <h2 id="game-title"></h2>
+        <h3 id="level-title"></h3>
 
         <div id="quiz-game">
             <h3 id="question"></h3>
@@ -66,10 +67,13 @@
 
         <div class="game-stats">
             <p id="score">Score: 0</p>
+            <p id="lives">❤️❤️❤️</p>
         </div>
 
         <button class="back-btn" onclick="backToMenu()">⬅ Terug naar menu</button>
 
+        <!-- Canvas voor Game 5 (Obstakel vermijden) -->
+        <canvas id="obstacle-game" width="500" height="400" style="display:block; border-radius:15px;"></canvas>
     </section>
 
     <!-- END SCREEN -->
