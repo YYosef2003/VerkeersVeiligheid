@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | Verkeersgame</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .auth-box {
+            max-width: 420px;
+            margin: 80px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 25px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .auth-box h2 { margin-bottom: 20px; }
+
+        .auth-box input {
+            width: 100%;
+            padding: 14px;
+            margin: 10px 0;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            font-size: 15px;
+        }
+
+        .auth-box button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 25px;
+            background: #111;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .auth-box button:hover {
+            transform: scale(1.03);
+            background: #000;
+        }
+
+        .auth-link { margin-top: 15px; display: block; }
+
+        .auth-link a {
+            color: #00b3ff;
+            text-decoration: none;
+        }
+
+        #msg { margin-top: 10px; color: red; }
+
+        /* NAV FIX */
+        nav {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: white;
+        }
+
+        header {
+            background: #111;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🚦 Verkeersgame</h1>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="info.html">Verkeersveiligheid</a>
+        <a href="game.html">Game</a>
+        <a href="contact.html">Contact</a>
+        <a href="Over-ons.html">Over Ons</a>
+    </nav>
+</header>
+
+<div class="auth-box">
+    <h2>👤 Inloggen</h2>
+
+    <input type="text" id="username" placeholder="Gebruikersnaam">
+    <input type="password" id="password" placeholder="Wachtwoord">
+
+    <button onclick="login()">Login</button>
+
+    <p id="msg"></p>
+
+    <div class="auth-link">
+        Nog geen account? <a href="register.html">Registreer</a>
+    </div>
+</div>
+
+<script>
+function login() {
+
+    const msg = document.getElementById("msg");
+
+    fetch("backend/login.php", {   // 👈 FIX: geen harde /verkeerssite pad
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: new URLSearchParams({
+            username: document.getElementById("username").value,
+            password: document.getElementById("password").value
+        })
+    })
+    .then(res => res.text())
+    .then(text => {
+
+        console.log("RAW RESPONSE:", text);
+
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch (e) {
+            msg.textContent = "Server gaf geen geldige data";
+            return;
+        }
+
+        if (data.id) {
+            localStorage.setItem("user", JSON.stringify(data));
+            window.location.href = "game.html";
+        } else {
+            msg.textContent = data.error === "login_failed"
+                ? "Gebruikersnaam of wachtwoord klopt niet"
+                : "Login mislukt";
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        msg.textContent = "Kan geen verbinding maken met server";
+    });
+}
+</script>
+
+</body>
+</html>

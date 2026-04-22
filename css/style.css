@@ -1,0 +1,321 @@
+/* ======================
+   ALGEMENE STYLING
+====================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: #f4f6f8;
+    color: #222;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* ======================
+   HEADER
+====================== */
+header {
+    background: #111;
+    color: white;
+    padding: 25px;
+    text-align: center;
+}
+
+nav {
+    margin-top: 15px;
+}
+
+nav a {
+    color: white;
+    margin: 0 12px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+nav a.active,
+nav a:hover {
+    color: #00ffcc;
+}
+
+/* ======================
+   EMOJI ACHTERGROND
+====================== */
+.emoji-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.emoji-bg span {
+    position: absolute;
+    font-size: 2.5rem;
+    opacity: 0.15;
+    animation: floatUp 18s linear infinite;
+}
+
+.emoji-bg.small span {
+    font-size: 1.8rem;
+    animation-duration: 25s;
+}
+
+.emoji-bg span:nth-child(1) { left: 5%; animation-delay: 0s; }
+.emoji-bg span:nth-child(2) { left: 25%; animation-delay: 4s; }
+.emoji-bg span:nth-child(3) { left: 45%; animation-delay: 8s; }
+.emoji-bg span:nth-child(4) { left: 65%; animation-delay: 2s; }
+.emoji-bg span:nth-child(5) { left: 85%; animation-delay: 6s; }
+
+@keyframes floatUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(-120%); }
+}
+
+/* ======================
+   HERO
+====================== */
+.hero {
+    position: relative;
+    padding: 90px 20px;
+    text-align: center;
+    background: linear-gradient(135deg, #00ffcc, #00b3ff);
+    color: #111;
+    overflow: hidden;
+    border-radius: 20px;
+    margin: 20px;
+}
+
+.hero h2 {
+    font-size: 2.6rem;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    max-width: 600px;
+    margin: 15px auto;
+}
+
+.button {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 14px 32px;
+    background: #111;
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: transform 0.2s, background 0.3s;
+}
+
+.button:hover {
+    background: #000;
+    transform: scale(1.05);
+}
+
+/* ======================
+   INFO STRIP
+====================== */
+.info-strip {
+    background: #111;
+    color: #00ffcc;
+    padding: 18px;
+    text-align: center;
+    font-weight: 500;
+    margin: 20px 0;
+}
+
+/* ======================
+   CARDS
+====================== */
+.cards, .game-selection, .info-grid {
+    display: flex;
+    gap: 25px;
+    padding: 40px 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.card, .game-card, .info-card {
+    background: white;
+    padding: 25px;
+    width: 260px;
+    border-radius: 22px;
+    text-align: center;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover, .game-card:hover, .info-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 35px rgba(0,0,0,0.15);
+}
+
+.card-emoji, .game-emoji {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.info-card h3 {
+    margin-bottom: 10px;
+    color: #00b3ff;
+}
+
+.info-card ul {
+    list-style: none;
+    text-align: left;
+}
+
+.info-card ul li {
+    margin-bottom: 8px;
+}
+
+/* ======================
+   CONTENT
+====================== */
+.content {
+    padding: 40px 20px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.content h2 {
+    margin-bottom: 15px;
+    color: #00b3ff;
+}
+
+/* ======================
+   WARNING
+====================== */
+.warning {
+    background: #ffecec;
+    padding: 30px;
+    border-radius: 20px;
+    margin-bottom: 40px;
+}
+
+/* ======================
+   WARNING2
+====================== */
+.warning2 {
+    background: #ffecec;
+    padding: 30px;
+    border-radius: 20px;
+    margin-bottom: 40px;
+    max-width: 1100px;
+    margin: 50px auto;
+}
+
+/* ======================
+   GAME AREA
+====================== */
+.game-container {
+    max-width: 650px;
+    margin: 50px auto;
+    background: white;
+    padding: 35px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+.scenario {
+    background: #f1f9ff;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+.choices button {
+    width: 100%;
+    margin: 12px 0;
+    padding: 14px;
+    border: none;
+    border-radius: 14px;
+    background: #00b3ff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.choices button:hover {
+    background: #0090cc;
+    transform: scale(1.03);
+}
+
+.correct { background: #2ecc71 !important; }
+.wrong { background: #e74c3c !important; }
+
+.game-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+#next-btn,
+.back-btn {
+    margin-top: 25px;
+    padding: 12px 26px;
+    border: none;
+    border-radius: 25px;
+    background: #111;
+    color: white;
+    cursor: pointer;
+}
+
+/* ======================
+   GAME 5 – OBSTAKEL CANVAS
+====================== */
+#obstacle-game {
+    display: block;
+    margin: 20px auto;
+    border-radius: 20px;
+    background: linear-gradient(#7ec850, #3b7a57); /* gras en weg effect */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* ======================
+   CTA
+====================== */
+.cta {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.cta h2 {
+    margin-bottom: 15px;
+    color: #00b3ff;
+}
+
+/* ======================
+   FOOTER
+====================== */
+footer {
+    margin-top: 60px;
+    padding: 20px;
+    text-align: center;
+    background: #111;
+    color: white;
+}
+.login-btn {
+    margin-left: auto;
+    background: linear-gradient(135deg, #00ffcc, #00b3ff);
+    padding: 6px 15px;
+    border-radius: 25px;
+    color: #111;
+    font-weight: bold;
+    transition: 0.2s;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+}
+
+.login-btn:hover {
+    transform: scale(1.05);
+}
+
