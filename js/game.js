@@ -1,3 +1,4 @@
+
 /* ======================
    ALGEMEEN
 ===================== */
@@ -169,7 +170,9 @@ function loadQuizQuestion() {
         btn.textContent = choice;
 
         btn.onclick = () => {
-            if (choice === q.correct) {
+            const isCorrect = choice === q.correct;
+
+            if (isCorrect) {
                 feedback.textContent = "✅ Correct!";
                 score++;
             } else {
@@ -178,19 +181,19 @@ function loadQuizQuestion() {
 
             const user = JSON.parse(localStorage.getItem("user"));
 
-if(user){
-    fetch("backend/save_quiz.php", {
-        method: "POST",
-        body: new URLSearchParams({
-            user_id: user.id,
-            question: q.question,
-            given_answer: choice,
-            correct_answer: q.correct,
-            is_correct: choice === q.correct ? 1 : 0,
-            score: score
-        })
-    });
-}
+            if (user) {
+                fetch("backend/save_quiz.php", {
+                    method: "POST",
+                    body: new URLSearchParams({
+                        user_id: user.id,
+                        question: q.question,
+                        given_answer: choice,
+                        correct_answer: q.correct,
+                        is_correct: isCorrect ? 1 : 0,
+                        score: score
+                    })
+                });
+            }
 
             updateStats();
             currentQuestion++;
@@ -201,14 +204,16 @@ if(user){
     });
 }
 
+
 /* ======================
-   OBSTACLE GAME
+   OBSTACLE GAME + COINS
 ===================== */
 const canvas = document.getElementById("obstacle-game");
 const ctx = canvas ? canvas.getContext("2d") : null;
 
 let car = { x: 220, y: 330, w: 60, h: 60 };
 let obstacles = [];
+let coins = [];
 let obstacleSpeed = 4;
 
 const carImg = new Image();
@@ -217,21 +222,35 @@ carImg.src = "images/car.png";
 const obstacleImg = new Image();
 obstacleImg.src = "images/cone.png";
 
+const coinImg = new Image();
+coinImg.src = "images/coin.png"; // voeg coin.png toe in je images map
+
 function startObstacleGame() {
     if (!canvas || !ctx) return;
 
     score = 0;
     obstacleSpeed = 4;
     obstacles = [];
-    updateStats();
+    coins = [];
+    car.x = 220;
+    car.y = 330;
 
+    updateStats();
     keys = {};
 
-    if (obstacleInterval) clearInterval(obstacleInterval);
+    if (obstacleInterval) {
+        clearInterval(obstacleInterval);
+    }
 
     if (!eventBound) {
-        document.addEventListener("keydown", e => keys[e.key] = true);
-        document.addEventListener("keyup", e => keys[e.key] = false);
+        document.addEventListener("keydown", e => {
+            keys[e.key] = true;
+        });
+
+        document.addEventListener("keyup", e => {
+            keys[e.key] = false;
+        });
+
         eventBound = true;
     }
 
@@ -242,116 +261,117 @@ function gameLoop() {
     if (!ctx) return;
 
     ctx.clearRect(0, 0, 500, 400);
+
+    // achtergrond
     ctx.fillStyle = "#3b7a57";
     ctx.fillRect(0, 0, 500, 400);
 
+    // beweging
     if (keys["ArrowLeft"]) car.x -= 6;
     if (keys["ArrowRight"]) car.x += 6;
 
+    if (car.x < 0) car.x = 0;
+    if (car.x + car.w > 500) car.x = 500 - car.w;
+
+    // auto tekenen
     ctx.drawImage(carImg, car.x, car.y, car.w, car.h);
 
-    if (Math.random() < 0.03) {
-        obstacles.push({ x: Math.random() * 450, y: -60, w: 50, h: 50 });
+    /* ======================
+       COINS SPAWN
+    ====================== */
+    if (Math.random() < 0.02) {
+        coins.push({
+            x: Math.random() * 450,
+            y: -40,
+            size: 30
+        });
     }
 
-    obstacles.forEach((o, i) => {
+    /* ======================
+       OBSTAKELS
+    ====================== */
+    if (Math.random() < 0.03) {
+        obstacles.push({
+            x: Math.random() * 450,
+            y: -60,
+            w: 50,
+            h: 50
+        });
+    }
+
+    // obstakels verwerken
+    for (let i = obstacles.length - 1; i >= 0; i--) {
+        const o = obstacles[i];
         o.y += obstacleSpeed;
 
         ctx.drawImage(obstacleImg, o.x, o.y, o.w, o.h);
 
-        if (
+        // collision
+        const hit =
             car.x < o.x + o.w &&
             car.x + car.w > o.x &&
             car.y < o.y + o.h &&
-            car.y + car.h > o.y
-        ) {
+            car.y + car.h > o.y;
+
+        if (hit) {
             clearInterval(obstacleInterval);
             obstacleInterval = null;
             showEndScreen("💥 Game Over!", score);
+            return;
         }
 
+        // voorbij
         if (o.y > 400) {
             score++;
             obstacleSpeed += 0.2;
-
-            const obstacleScore = document.getElementById("obstacle-score");
-            if (obstacleScore) obstacleScore.textContent = score;
+            updateStats();
 
             obstacles.splice(i, 1);
         }
-    });
+    }
+
+    /* ======================
+       COINS LOGICA
+    ====================== */
+    for (let i = coins.length - 1; i >= 0; i--) {
+        const c = coins[i];
+
+        c.y += obstacleSpeed;
+
+        // tekenen coin
+        if (coinImg.complete) {
+            ctx.drawImage(coinImg, c.x, c.y, c.size, c.size);
+        } else {
+            ctx.fillStyle = "gold";
+            ctx.beginPath();
+            ctx.arc(c.x + c.size / 2, c.y + c.size / 2, c.size / 2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // collision met speler
+        const hit =
+            car.x < c.x + c.size &&
+            car.x + car.w > c.x &&
+            car.y < c.y + c.size &&
+            car.y + car.h > c.y;
+
+        if (hit) {
+            score += 2; // 🔥 extra punten
+            updateStats();
+            coins.splice(i, 1);
+            continue;
+        }
+
+        // uit beeld
+        if (c.y > 400) {
+            coins.splice(i, 1);
+        }
+    }
 }
 
 /* ======================
-   MEMORY GAME
+   LOGIN
 ===================== */
-const symbols = ["🚗","🚲","🚦","🛑","🚸","⚠️","🚕","🚌"];
-
-let cards = [];
-let flipped = [];
-
-function loadMemoryGame() {
-    memoryGame.innerHTML = "";
-
-    memoryGame.style.display = "grid";
-    memoryGame.style.gridTemplateColumns = "repeat(4, 80px)";
-    memoryGame.style.gap = "15px";
-    memoryGame.style.justifyContent = "center";
-
-    score = 0;
-    updateStats();
-
-    cards = [...symbols, ...symbols].sort(() => Math.random() - 0.5);
-
-    cards.forEach(symbol => {
-        const card = document.createElement("button");
-
-        card.style.width = "80px";
-        card.style.height = "80px";
-        card.style.fontSize = "30px";
-        card.style.borderRadius = "10px";
-
-        card.textContent = "❓";
-
-        card.onclick = () => {
-            if (flipped.length < 2 && card.textContent === "❓") {
-                card.textContent = symbol;
-                flipped.push({ card, symbol });
-
-                if (flipped.length === 2) {
-                    if (flipped[0].symbol === flipped[1].symbol) {
-                        score++;
-                        updateStats();
-                        flipped = [];
-
-                        if (score === symbols.length) {
-                            showEndScreen("🏁 Memory voltooid!", score);
-                        }
-                    } else {
-                        setTimeout(() => {
-                            flipped[0].card.textContent = "❓";
-                            flipped[1].card.textContent = "❓";
-                            flipped = [];
-                        }, 700);
-                    }
-                }
-            }
-        };
-
-        memoryGame.appendChild(card);
-    });
-}
-fetch("backend/save_quiz.php", {
-    method: "POST",
-    body: new URLSearchParams({
-        user_id: JSON.parse(localStorage.getItem("user")).id,
-        question: q.question,
-        given_answer: choice,
-        correct_answer: q.correct,
-        is_correct: choice === q.correct ? 1 : 0,
-        score: score
-    })
-});
 function login() {
     fetch("backend/login.php", {
         method: "POST",
@@ -362,11 +382,15 @@ function login() {
     })
     .then(r => r.json())
     .then(data => {
-        if(data.id){
+        if (data.id) {
             localStorage.setItem("user", JSON.stringify(data));
             window.location.href = "game.html";
+        } else {
+            alert("Inloggen mislukt");
         }
+    })
+    .catch(() => {
+        alert("Er ging iets mis met inloggen");
     });
 }
-
 
