@@ -9,15 +9,30 @@
 
 <header>
     <h1>🎮 Verkeersgames</h1>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="info.html">Verkeersveiligheid</a>
-        <a href="game.html" class="active">Game</a>
-        <a href="contact.html">Contact</a>
-        <a href="Over-ons.html">Over Ons</a>
-        <a href="login.html" class="login-btn">Login</a>
-    </nav>
+
+    <div class="navbar">
+
+       
+        <nav class="nav-left">
+            <a href="index.html">Home</a>
+            <a href="info.html">Verkeersveiligheid</a>
+            <a href="game.html" class="active">Game</a>
+            <a href="contact.html">Contact</a>
+            <a href="Over-ons.html">Over Ons</a>
+            <a href="highscores.html">Highscores</a>
+            <a href="results.html">Mijn resultaten</a>
+        </nav>
+
+        
+        <div class="nav-right">
+            <span id="logged-user"></span>
+            <a href="login.html" id="login-btn" class="auth-btn">Login</a>
+            <button id="logout-btn" class="auth-btn" style="display:none;" onclick="logout()">Uitloggen</button>
+        </div>
+
+    </div>
 </header>
+    
 
 <main class="content">  
 
@@ -52,7 +67,6 @@
         <!-- FIX: wrapper toegevoegd (nodig voor JS, geen game logica veranderd) -->
         <div id="obstacle-wrapper" style="display:none;">
             <canvas id="obstacle-game" width="500" height="400"></canvas>
-            <p id="obstacle-score">0</p>
         </div>
 
         <div id="memory-game"></div>
@@ -60,15 +74,15 @@
         <p id="feedback"></p>
 
         <div class="game-stats">
-            <p id="score">Score: 0</p>
-            <p id="lives">❤️❤️❤️</p>
+            <p id="score">Score: 0</p> 
         </div>
 
         <button class="back-btn" onclick="backToMenu()">⬅ Terug naar menu</button>
+        <button class="button"   onclick="restartGame()">🔁 Speel opnieuw</button>
 
     </section>
 
-    <!-- END SCREEN -->
+  <!-- END SCREEN -->
     <section id="end-screen" class="game-container" style="display:none;">
 
         <h2 id="end-title"></h2>
@@ -78,6 +92,8 @@
         <button class="back-btn" onclick="backToMenu()">🏠 Menu</button>
 
     </section>
+    
+    <div id="my-highscores"></div>
 
 </main>
 
@@ -86,5 +102,34 @@
 </footer>
 
 <script src="js/game.js"></script>
+<script src="js/highscores.js"></script>
+
+<script>
+function logout() {
+    localStorage.removeItem("user");
+    window.location.href = "login.html";
+}
+</script>
+
+<script>
+const user = JSON.parse(localStorage.getItem("user"));
+
+const loginBtn = document.getElementById("login-btn");
+const logoutBtn = document.getElementById("logout-btn");
+
+if (user && user.id) {
+    if (loginBtn) loginBtn.style.display = "none";
+    if (logoutBtn) logoutBtn.style.display = "inline-block";
+} else {
+    if (loginBtn) loginBtn.style.display = "inline-block";
+    if (logoutBtn) logoutBtn.style.display = "none";
+}
+
+function logout() {
+    localStorage.removeItem("user");
+    window.location.href = "login.html";
+}
+</script>
+
 </body>
 </html>

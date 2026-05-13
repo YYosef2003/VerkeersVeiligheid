@@ -31,6 +31,13 @@
 
     </div>
 
+    
+    <nav>
+
+        <a href="highscores.html">Highscores</a>
+        <a href="results.html">Mijn resultaten</a>
+    </nav>
+
     <h2>Veilig door het verkeer</h2>
     <p>
         Leer hoe jij veilig kunt deelnemen aan het verkeer.<br>

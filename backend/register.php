@@ -1,12 +1,31 @@
 <?php
-$conn = new mysqli("localhost", "root", "", "verkeersgame");
+header("Content-Type: application/json");
 
-$username = $_POST['username'];
-$email = $_POST['email'];
-$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+$conn = new mysqli("localhost", "root", "", "crossyroad");
 
-$sql = "INSERT INTO users (username, email, password)
-VALUES ('$username', '$email', '$password')";
+if ($conn->connect_error) {
+    echo json_encode(["success" => false, "message" => "Database fout"]);
+    exit;
+}
 
-echo $conn->query($sql) ? json_encode(["status"=>"ok"]) : json_encode(["status"=>"error"]);
+$username = $_POST['username'] ?? "";
+$email = $_POST['email'] ?? "";
+$password = $_POST['password'] ?? "";
+
+if (!$username || !$email || !$password) {
+    echo json_encode(["success" => false, "message" => "Vul alles in"]);
+    exit;
+}
+
+$hashed = password_hash($password, PASSWORD_DEFAULT);
+
+$stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+
+$stmt->bind_param("sss", $username, $email, $hashed);
+
+if ($stmt->execute()) {
+    echo json_encode(["success" => true]);
+} else {
+    echo json_encode(["success" => false, "message" => "Opslaan mislukt"]);
+}
 ?>

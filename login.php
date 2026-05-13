@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Login | Verkeersgame</title>
     <link rel="stylesheet" href="css/style.css">
-
     <style>
         .auth-box {
             max-width: 420px;
@@ -95,7 +94,7 @@
     <input type="text" id="username" placeholder="Gebruikersnaam">
     <input type="password" id="password" placeholder="Wachtwoord">
 
-    <button onclick="login()">Login</button>
+    <button type="button" onclick="login()">Login</button>
 
     <p id="msg"></p>
 
@@ -106,39 +105,28 @@
 
 <script>
 function login() {
+    
 
     const msg = document.getElementById("msg");
+    msg.textContent = "";
 
-    fetch("backend/login.php", {   // 👈 FIX: geen harde /verkeerssite pad
+    fetch("backend/login.php", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
+        
         body: new URLSearchParams({
             username: document.getElementById("username").value,
             password: document.getElementById("password").value
         })
     })
-    .then(res => res.text())
-    .then(text => {
+    .then(res => res.json())
+    .then(data => {
+        console.log("LOGIN:", data);
 
-        console.log("RAW RESPONSE:", text);
-
-        let data;
-        try {
-            data = JSON.parse(text);
-        } catch (e) {
-            msg.textContent = "Server gaf geen geldige data";
-            return;
-        }
-
-        if (data.id) {
+        if (data.success) {
             localStorage.setItem("user", JSON.stringify(data));
             window.location.href = "game.html";
         } else {
-            msg.textContent = data.error === "login_failed"
-                ? "Gebruikersnaam of wachtwoord klopt niet"
-                : "Login mislukt";
+            msg.textContent = data.message || "Login mislukt";
         }
     })
     .catch(err => {
@@ -146,7 +134,7 @@ function login() {
         msg.textContent = "Kan geen verbinding maken met server";
     });
 }
+
+
 </script>
 
-</body>
-</html>

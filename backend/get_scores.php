@@ -8,24 +8,20 @@ if ($conn->connect_error) {
     exit;
 }
 
-$user_id = $_GET['user_id'] ?? null;
+$sql = "
+    SELECT player_name, MAX(score) AS score
+    FROM highscores
+    GROUP BY player_name
+    ORDER BY score DESC
+    LIMIT 10
+";
 
-if (!$user_id) {
+$result = $conn->query($sql);
+
+if (!$result) {
     echo json_encode([]);
     exit;
 }
-
-$stmt = $conn->prepare("
-    SELECT question, given_answer, correct_answer, is_correct, score
-    FROM quiz_results
-    WHERE user_id = ?
-    ORDER BY id DESC
-");
-
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-
-$result = $stmt->get_result();
 
 $data = [];
 

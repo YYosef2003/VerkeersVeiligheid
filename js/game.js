@@ -3,6 +3,7 @@
    ALGEMEEN
 ===================== */
 let currentGame = null;
+let lastGame = null; 
 let score = 0;
 let lives = 3;
 
@@ -169,41 +170,43 @@ function loadQuizQuestion() {
         const btn = document.createElement("button");
         btn.textContent = choice;
 
-        btn.onclick = () => {
-            const isCorrect = choice === q.correct;
+  btn.onclick = () => {
+    const isCorrect = choice === q.correct;
 
-            if (isCorrect) {
-                feedback.textContent = "✅ Correct!";
-                score++;
-            } else {
-                feedback.textContent = "❌ Fout!";
-            }
+    if (isCorrect) {
+        feedback.textContent = "✅ Correct!";
+        score++;
+    } else {
+        feedback.textContent = "❌ Fout!";
+    }
 
-            const user = JSON.parse(localStorage.getItem("user"));
+    const user = JSON.parse(localStorage.getItem("user"));
 
-            if (user) {
-                fetch("backend/save_quiz.php", {
-                    method: "POST",
-                    body: new URLSearchParams({
-                        user_id: user.id,
-                        question: q.question,
-                        given_answer: choice,
-                        correct_answer: q.correct,
-                        is_correct: isCorrect ? 1 : 0,
-                        score: score
-                    })
+    if (user && user.id) {
+        console.log("QUIZ OPSLAAN WORDT AANGEROEPEN");
+        fetch("backend/save_quiz.php", {
+            method: "POST",
+            body: new URLSearchParams({
+                user_id: user.id,
+                question: q.question,
+                given_answer: choice,
+                correct_answer: q.correct,
+                is_correct: isCorrect ? 1 : 0,
+                score: score
+            })
+        })
+        .then(res => res.json())
+        .then(data => console.log("Quiz opgeslagen:", data));
+    }
+
+    updateStats();
+    currentQuestion++;
+    setTimeout(loadQuizQuestion, 800);
+};
                 });
             }
 
-            updateStats();
-            currentQuestion++;
-            setTimeout(loadQuizQuestion, 800);
-        };
-
-        choicesEl.appendChild(btn);
-    });
-}
-
+            
 
 /* ======================
    OBSTACLE GAME + COINS
@@ -217,13 +220,13 @@ let coins = [];
 let obstacleSpeed = 4;
 
 const carImg = new Image();
-carImg.src = "images/car.png";
+carImg.src = "images/car2.png";
 
 const obstacleImg = new Image();
-obstacleImg.src = "images/cone.png";
+obstacleImg.src = "images/cone.webp";
 
 const coinImg = new Image();
-coinImg.src = "images/coin.png"; // voeg coin.png toe in je images map
+coinImg.src = "images/coin.png";
 
 function startObstacleGame() {
     if (!canvas || !ctx) return;
@@ -257,6 +260,25 @@ function startObstacleGame() {
     obstacleInterval = setInterval(gameLoop, 20);
 }
 
+function restartGame() {
+    console.log("Restart klik:", currentGame, lastGame);
+
+    if (!lastGame) {
+        alert("Geen game gevonden om opnieuw te starten");
+        return;
+    }
+
+    if (obstacleInterval) {
+        clearInterval(obstacleInterval);
+        obstacleInterval = null;
+    }
+
+    endScreen.style.display = "none";
+    gameArea.style.display = "block";
+    gameSelect.style.display = "none";
+
+    startGame(lastGame);
+}
 function gameLoop() {
     if (!ctx) return;
 
@@ -288,7 +310,7 @@ function gameLoop() {
     }
 
     /* ======================
-       OBSTAKELS
+       OBSTAKELS SPAWN
     ====================== */
     if (Math.random() < 0.03) {
         obstacles.push({
@@ -299,14 +321,15 @@ function gameLoop() {
         });
     }
 
-    // obstakels verwerken
+    /* ======================
+       OBSTAKELS LOGICA
+    ====================== */
     for (let i = obstacles.length - 1; i >= 0; i--) {
         const o = obstacles[i];
         o.y += obstacleSpeed;
 
         ctx.drawImage(obstacleImg, o.x, o.y, o.w, o.h);
 
-        // collision
         const hit =
             car.x < o.x + o.w &&
             car.x + car.w > o.x &&
@@ -316,16 +339,16 @@ function gameLoop() {
         if (hit) {
             clearInterval(obstacleInterval);
             obstacleInterval = null;
+
+            saveObstacleScore(score);
             showEndScreen("💥 Game Over!", score);
             return;
         }
 
-        // voorbij
         if (o.y > 400) {
             score++;
             obstacleSpeed += 0.2;
             updateStats();
-
             obstacles.splice(i, 1);
         }
     }
@@ -335,11 +358,9 @@ function gameLoop() {
     ====================== */
     for (let i = coins.length - 1; i >= 0; i--) {
         const c = coins[i];
-
         c.y += obstacleSpeed;
 
-        // tekenen coin
-        if (coinImg.complete) {
+        if (coinImg.complete && coinImg.naturalWidth > 0) {
             ctx.drawImage(coinImg, c.x, c.y, c.size, c.size);
         } else {
             ctx.fillStyle = "gold";
@@ -348,7 +369,6 @@ function gameLoop() {
             ctx.fill();
         }
 
-        // collision met speler
         const hit =
             car.x < c.x + c.size &&
             car.x + car.w > c.x &&
@@ -356,41 +376,38 @@ function gameLoop() {
             car.y + car.h > c.y;
 
         if (hit) {
-            score += 2; // 🔥 extra punten
+            score += 2;
             updateStats();
             coins.splice(i, 1);
             continue;
         }
 
-        // uit beeld
         if (c.y > 400) {
             coins.splice(i, 1);
         }
     }
 }
 
-/* ======================
-   LOGIN
-===================== */
-function login() {
-    fetch("backend/login.php", {
+function saveObstacleScore(finalScore) {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user || !user.id) {
+        alert("Je moet ingelogd zijn");
+        return;
+    }
+
+    fetch("backend/save_score.php", {
         method: "POST",
-        body: new URLSearchParams({
-            username: document.getElementById("username").value,
-            password: document.getElementById("password").value
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            user_id: user.id,
+            player_name: user.username,
+            score: finalScore
         })
     })
-    .then(r => r.json())
-    .then(data => {
-        if (data.id) {
-            localStorage.setItem("user", JSON.stringify(data));
-            window.location.href = "game.html";
-        } else {
-            alert("Inloggen mislukt");
-        }
-    })
-    .catch(() => {
-        alert("Er ging iets mis met inloggen");
-    });
+    .then(res => res.json())
+    .then(data => console.log("Score opgeslagen:", data))
+    .catch(err => console.error(err));
 }
-

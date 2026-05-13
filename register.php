@@ -27,13 +27,13 @@
 
         <form>
 
-            <input type="text" placeholder="Gebruikersnaam" required
+           <input id="username" type="text" placeholder="Gebruikersnaam" required
                 style="width:100%; padding:12px; margin:10px 0; border-radius:15px; border:1px solid #ccc;">
 
-            <input type="email" placeholder="E-mail" required
+            <input id="email" type="email" placeholder="E-mail" required
                 style="width:100%; padding:12px; margin:10px 0; border-radius:15px; border:1px solid #ccc;">
 
-            <input type="password" placeholder="Wachtwoord" required
+            <input id="password" type="password" placeholder="Wachtwoord" required
                 style="width:100%; padding:12px; margin:10px 0; border-radius:15px; border:1px solid #ccc;">
 
             <button class="button" type="button" onclick="register()" style="width:100%;">
@@ -50,6 +50,9 @@
     </div>
 
 </main>
+
+<div id="results"></div>
+<script src="js/profile.js"></script>
 
 </body>
 </html>

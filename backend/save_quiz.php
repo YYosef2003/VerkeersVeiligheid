@@ -1,10 +1,10 @@
 <?php
 header("Content-Type: application/json");
 
-$conn = new mysqli("localhost", "root", "", "verkeersgame");
+$conn = new mysqli("localhost", "root", "", "crossyroad");
 
 if ($conn->connect_error) {
-    echo json_encode(["error" => "db_error"]);
+    echo json_encode(["success" => false, "message" => "Database fout"]);
     exit;
 }
 
@@ -16,7 +16,7 @@ $is_correct = $_POST['is_correct'] ?? 0;
 $score = $_POST['score'] ?? 0;
 
 if (!$user_id) {
-    echo json_encode(["error" => "no_user"]);
+    echo json_encode(["success" => false, "message" => "Geen user"]);
     exit;
 }
 
@@ -37,8 +37,8 @@ $stmt->bind_param(
 );
 
 if ($stmt->execute()) {
-    echo json_encode(["status" => "ok"]);
+    echo json_encode(["success" => true]);
 } else {
-    echo json_encode(["error" => "insert_failed"]);
+    echo json_encode(["success" => false, "message" => $stmt->error]);
 }
 ?>
