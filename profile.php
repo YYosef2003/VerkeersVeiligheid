@@ -7,14 +7,7 @@
 </head>
 <body>
 
-<header>
-    <h1>👤 Mijn profiel</h1>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="game.html">Game</a>
-        <a href="profile.html" class="active">Profiel</a>
-    </nav>
-</header>
+<?php include 'includes/navbar.php'; ?>
 
 <main class="content">
 

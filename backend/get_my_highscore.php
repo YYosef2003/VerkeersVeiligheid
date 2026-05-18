@@ -14,7 +14,7 @@ $stmt = $conn->prepare("
     FROM highscores
     WHERE user_id = :user_id
     ORDER BY score DESC
-    LIMIT 10
+    LIMIT 1
 ");
 
 $stmt->execute([":user_id" => $user_id]);

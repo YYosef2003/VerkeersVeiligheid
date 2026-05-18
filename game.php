@@ -7,31 +7,7 @@
 </head>
 <body>
 
-<header>
-    <h1>🎮 Verkeersgames</h1>
-
-    <div class="navbar">
-
-       
-        <nav class="nav-left">
-            <a href="index.html">Home</a>
-            <a href="info.html">Verkeersveiligheid</a>
-            <a href="game.html" class="active">Game</a>
-            <a href="contact.html">Contact</a>
-            <a href="Over-ons.html">Over Ons</a>
-            <a href="highscores.html">Highscores</a>
-            <a href="results.html">Mijn resultaten</a>
-        </nav>
-
-        
-        <div class="nav-right">
-            <span id="logged-user"></span>
-            <a href="login.html" id="login-btn" class="auth-btn">Login</a>
-            <button id="logout-btn" class="auth-btn" style="display:none;" onclick="logout()">Uitloggen</button>
-        </div>
-
-    </div>
-</header>
+<?php include 'includes/navbar.php'; ?>
     
 
 <main class="content">  
@@ -76,7 +52,9 @@
         <div class="game-stats">
             <p id="score">Score: 0</p> 
         </div>
+        
 
+        
         <button class="back-btn" onclick="backToMenu()">⬅ Terug naar menu</button>
         <button class="button"   onclick="restartGame()">🔁 Speel opnieuw</button>
 
@@ -102,34 +80,10 @@
 </footer>
 
 <script src="js/game.js"></script>
-<script src="js/highscores.js"></script>
 
-<script>
-function logout() {
-    localStorage.removeItem("user");
-    window.location.href = "login.html";
-}
-</script>
 
-<script>
-const user = JSON.parse(localStorage.getItem("user"));
 
-const loginBtn = document.getElementById("login-btn");
-const logoutBtn = document.getElementById("logout-btn");
-
-if (user && user.id) {
-    if (loginBtn) loginBtn.style.display = "none";
-    if (logoutBtn) logoutBtn.style.display = "inline-block";
-} else {
-    if (loginBtn) loginBtn.style.display = "inline-block";
-    if (logoutBtn) logoutBtn.style.display = "none";
-}
-
-function logout() {
-    localStorage.removeItem("user");
-    window.location.href = "login.html";
-}
-</script>
 
 </body>
 </html>
+

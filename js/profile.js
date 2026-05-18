@@ -6,6 +6,7 @@ function register() {
     fetch("backend/register.php", {
         method: "POST",
         body: new URLSearchParams({
+            action: "register",
             username: username,
             email: email,
             password: password
@@ -17,7 +18,8 @@ function register() {
 
         if (data.success) {
             alert("Account aangemaakt!");
-            window.location.href = "login.html";
+            localStorage.removeItem("user");
+            window.location.href = "login.php";
         } else {
             alert(data.message || "Registreren mislukt");
         }

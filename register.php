@@ -7,17 +7,7 @@
 </head>
 <body>
 
-<header>
-    <h1>🧾 Account aanmaken</h1>
-
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="info.html">Verkeersveiligheid</a>
-        <a href="game.html">Game</a>
-        <a href="contact.html">Contact</a>
-        <a href="Over-ons.html">Over Ons</a>
-    </nav>
-</header>
+<?php include 'includes/navbar.php'; ?>
 
 <main class="content">
 
@@ -44,15 +34,46 @@
 
         <p style="margin-top:15px;">
             Al een account?
-            <a href="login.html">Login hier</a>
+            <a href="login.php">Login hier</a>
         </p>
 
     </div>
 
 </main>
 
-<div id="results"></div>
-<script src="js/profile.js"></script>
+<script>
+function register() {
+    const username = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    fetch('backend/session_handler.php', {
+        method: 'POST',
+        body: new URLSearchParams({
+            action: 'register',
+            username: username,
+            email: email,
+            password: password
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+            localStorage.removeItem('user');
+            setTimeout(function() {
+                window.location.href = 'login.php';
+            }, 500);
+        } else {
+            alert(data.message || 'Registratie mislukt');
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        alert('Kan geen verbinding maken met server');
+    });
+}
+</script>
 
 </body>
 </html>

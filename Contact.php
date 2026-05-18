@@ -98,17 +98,7 @@
 </head>
 <body>
 
-<header>
-    <h1>📬 Contact</h1>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="info.html">Verkeersveiligheid</a>
-        <a href="game.html">Game</a>
-        <a href="contact.html" class="active">Contact</a>
-        <a href="Over-ons.html" class="active">Over Ons</a>
-        <a href="login.html" class="login-btn">Login</a>
-    </nav>
-</header>
+<?php include 'includes/navbar.php'; ?>
 
 <main class="content">
 

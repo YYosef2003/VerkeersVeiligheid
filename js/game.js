@@ -40,6 +40,8 @@ let eventBound = false;
 ===================== */
 function startGame(game) {
     currentGame = game;
+    lastGame = game;
+    
     score = 0;
     lives = 3;
     updateStats();
@@ -165,10 +167,10 @@ function loadQuizQuestion() {
         return;
     }
 
-    if (currentQuestion >= quizQuestions.length) {
-        showEndScreen("🏁 Quiz voltooid!", `${score}/${quizQuestions.length}`);
-        return;
-    }
+   if (currentQuestion >= quizQuestions.length) {
+    showEndScreen("🏁 Quiz voltooid!", `${score}/${quizQuestions.length}`);
+    return;
+}
 
     const q = quizQuestions[currentQuestion];
 
@@ -180,42 +182,42 @@ function loadQuizQuestion() {
         const btn = document.createElement("button");
         btn.textContent = choice;
 
-  btn.onclick = () => {
-    const isCorrect = choice === q.correct;
+        btn.onclick = () => {
+            const isCorrect = choice === q.correct;
 
-    if (isCorrect) {
+            if (isCorrect) {
                 if (feedbackElement) feedbackElement.textContent = "✅ Correct!";
-        score++;
-    } else {
+                score++;
+            } else {
                 if (feedbackElement) feedbackElement.textContent = "❌ Fout!";
-    }
+            }
 
-    const user = JSON.parse(localStorage.getItem("user"));
+            const user = JSON.parse(localStorage.getItem("user"));
 
-    if (user && user.id) {
-        fetch("backend/save_quiz.php", {
-            method: "POST",
-            body: new URLSearchParams({
-                user_id: user.id,
-                question: q.question,
-                given_answer: choice,
-                correct_answer: q.correct,
-                is_correct: isCorrect ? 1 : 0,
-                score: score
-            })
-        })
-        .then(res => res.json())
+            if (user && user.id) {
+                fetch("backend/save_quiz.php", {
+                    method: "POST",
+                    body: new URLSearchParams({
+                        user_id: user.id,
+                        question: q.question,
+                        given_answer: choice,
+                        correct_answer: q.correct,
+                        is_correct: isCorrect ? 1 : 0,
+                        score: score
+                    })
+                })
+                .then(res => res.json())
         .then(data => console.log("Quiz opgeslagen:", data));
-    }
+            }
 
-    updateStats();
-    currentQuestion++;
-    setTimeout(loadQuizQuestion, 800);
-};
+            updateStats();
+            currentQuestion++;
+            setTimeout(loadQuizQuestion, 800);
+        };
 
         choicesElement.appendChild(btn);
-                });
-            }
+    });
+}
 
             
 

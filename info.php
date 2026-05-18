@@ -7,21 +7,11 @@
 </head>
 <body>
 
-<header>
-    <h1>🚦 Verkeersveiligheid</h1>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="info.html" class="active">Verkeersveiligheid</a>
-        <a href="game.html">Game</a>
-        <a href="contact.html">Contact</a>
-        <a href="Over-ons.html" class="active">Over Ons</a>
-        <a href="login.html" class="login-btn">Login</a>
-    </nav>
-</header>
+<?php include 'includes/navbar.php'; ?>
 
 <main class="content">
 
-    <!-- INTRO -->
+    
     <section class="info-hero">
         <div class="emoji-bg small">
             <span>🚗</span>
@@ -43,7 +33,7 @@
         </p>
     </section>
 
-    <!-- BLOKKEN -->
+    
     <section class="info-grid">
 
         <div class="info-card">
@@ -132,7 +122,7 @@
             Test hoe goed jij verkeerssituaties inschat met onze interactieve games.
             Hoe beter je scoort, hoe veiliger jij wordt.
         </p>
-        <a href="game.html" class="button">🚦 Naar de games</a>
+        <a href="game.php" class="button">🚦 Naar de games</a>
     </section>
 
 </main>

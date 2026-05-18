@@ -52,41 +52,12 @@
         }
 
         #msg { margin-top: 10px; color: red; }
-
-        /* NAV FIX */
-        nav {
-            margin-top: 10px;
-            text-align: center;
-        }
-
-        nav a {
-            margin: 0 10px;
-            text-decoration: none;
-            color: white;
-        }
-
-        header {
-            background: #111;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
     </style>
 </head>
 
 <body>
 
-<header>
-    <h1>🚦 Verkeersgame</h1>
-
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="info.html">Verkeersveiligheid</a>
-        <a href="game.html">Game</a>
-        <a href="contact.html">Contact</a>
-        <a href="Over-ons.html">Over Ons</a>
-    </nav>
-</header>
+<?php include 'includes/navbar.php'; ?>
 
 <div class="auth-box">
     <h2>👤 Inloggen</h2>
@@ -99,42 +70,13 @@
     <p id="msg"></p>
 
     <div class="auth-link">
-        Nog geen account? <a href="register.html">Registreer</a>
+        Nog geen account? <a href="register.php">Registreer</a>
     </div>
 </div>
 
-<script>
-function login() {
-    
+<script src="js/login.js"></script>
+<script src="js/navbar.js"></script>
 
-    const msg = document.getElementById("msg");
-    msg.textContent = "";
-
-    fetch("backend/login.php", {
-        method: "POST",
-        
-        body: new URLSearchParams({
-            username: document.getElementById("username").value,
-            password: document.getElementById("password").value
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
-        console.log("LOGIN:", data);
-
-        if (data.success) {
-            localStorage.setItem("user", JSON.stringify(data));
-            window.location.href = "game.html";
-        } else {
-            msg.textContent = data.message || "Login mislukt";
-        }
-    })
-    .catch(err => {
-        console.error(err);
-        msg.textContent = "Kan geen verbinding maken met server";
-    });
-}
-
-
-</script>
+</body>
+</html>
 

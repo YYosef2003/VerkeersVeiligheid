@@ -1,9 +1,21 @@
 function login() {
-    fetch("backend/login.php", {
+    const msg = document.getElementById("msg");
+    if (msg) msg.textContent = "";
+
+    const username = document.getElementById("username");
+    const password = document.getElementById("password");
+
+    if (!username || !password) {
+        console.error("Username or password field not found");
+        return;
+    }
+
+    fetch("backend/session_handler.php", {
         method: "POST",
         body: new URLSearchParams({
-            username: document.getElementById("username").value,
-            password: document.getElementById("password").value
+            action: "login",
+            username: username.value,
+            password: password.value
         })
     })
     .then(res => res.json())
@@ -12,19 +24,35 @@ function login() {
 
         if (data.success) {
             localStorage.setItem("user", JSON.stringify(data));
-            window.location.href = "game.html";
+            setTimeout(function() {
+                window.location.href = "game.php";
+            }, 500);
         } else {
-            document.getElementById("login-error").textContent =
-                data.message || "Inloggen mislukt";
+            if (msg) {
+                msg.textContent = data.message || "Inloggen mislukt";
+            }
+        }
+    })
+    .catch(err => {
+        console.error("Login error:", err);
+        if (msg) {
+            msg.textContent = "Kan geen verbinding maken met server";
         }
     });
 }
-const user = JSON.parse(localStorage.getItem("user"));
 
-const loggedUser = document.getElementById("logged-user");
+// Initialize on page load if needed
+document.addEventListener('DOMContentLoaded', function() {
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const loggedUser = document.getElementById("logged-user");
 
-if (user && user.username) {
-    loggedUser.textContent = "Ingelogd als: " + user.username;
-} else {
-    loggedUser.textContent = "Niet ingelogd";
-}
+    if (user && user.username) {
+        if (loggedUser) {
+            loggedUser.textContent = "Ingelogd als: " + user.username;
+        }
+    } else {
+        if (loggedUser) {
+            loggedUser.textContent = "Niet ingelogd";
+        }
+    }
+});

@@ -13,16 +13,26 @@ if (!$user_id || $player_name === "" || $score === null) {
     exit;
 }
 
-$stmt = $conn->prepare("
-    INSERT INTO highscores (user_id, player_name, score)
-    VALUES (:user_id, :player_name, :score)
-");
+try {
+    $stmt = $conn->prepare("
+        INSERT INTO highscores (user_id, player_name, score, created_at)
+        VALUES (:user_id, :player_name, :score, NOW())
+    ");
 
-$stmt->execute([
-    ":user_id" => $user_id,
-    ":player_name" => $player_name,
-    ":score" => (int)$score
-]);
+    $stmt->execute([
+        ":user_id" => $user_id,
+        ":player_name" => $player_name,
+        ":score" => (int)$score
+    ]);
 
-echo json_encode(["success" => true]);
+    echo json_encode([
+        "success" => true,
+        "message" => "Score opgeslagen"
+    ]);
+} catch (PDOException $e) {
+    echo json_encode([
+        "success" => false,
+        "message" => "Error: " . $e->getMessage()
+    ]);
+}
 ?>

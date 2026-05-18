@@ -7,19 +7,8 @@
 </head>
 <body>
 
-<header>
-    <h1>🚦 Over Ons</h1>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="info.html">Verkeersveiligheid</a>
-        <a href="game.html">Game</a>
-        <a href="contact.html">Contact</a>
-        <a href="overons.html" class="active">Over Ons</a>
-        <a href="login.html" class="login-btn">Login</a>
-    </nav>
-</header>
+<?php include 'includes/navbar.php'; ?>
 
-<!-- HERO -->
 <section class="hero">
     <div class="emoji-bg small">
         <span>🚗</span>
@@ -37,7 +26,7 @@
     </p>
 </section>
 
-<!-- MISSIE & VISIE -->
+
 <section class="content">
     <h2>Onze missie & visie</h2>
     <div class="info-grid">
@@ -65,7 +54,7 @@
     </div>
 </section>
 
-<!-- TEAM -->
+
 <section class="content">
     <h2>Maak kennis met ons team</h2>
     <div class="cards">
@@ -87,7 +76,7 @@
     </div>
 </section>
 
-<!-- WAAROM WIJ DIT DOEN -->
+
 <section class="warning2">
     <h3>💡 Waarom we dit doen</h3>
     <p>
@@ -104,13 +93,13 @@
     </ul>
 </section>
 
-<!-- CALL TO ACTION -->
+
 <section class="cta">
     <h2>🚦 Test jezelf!</h2>
     <p>
         Benieuwd hoe goed jij al weet wat veilig is? Probeer onze games en ontdek je skills!
     </p>
-    <a href="game.html" class="button">🎮 Speel nu</a>
+    <a href="game.php" class="button">🎮 Speel nu</a>
 </section>
 
 <footer>
