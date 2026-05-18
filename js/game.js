@@ -156,15 +156,25 @@ const quizQuestions = [
 ];
 
 function loadQuizQuestion() {
+    const questionElement = document.getElementById("question");
+    const choicesElement = document.querySelector(".choices");
+    const feedbackElement = document.getElementById("feedback");
+
+    if (!questionElement || !choicesElement) {
+        console.error("Quiz elementen niet gevonden");
+        return;
+    }
+
     if (currentQuestion >= quizQuestions.length) {
         showEndScreen("🏁 Quiz voltooid!", `${score}/${quizQuestions.length}`);
         return;
     }
 
     const q = quizQuestions[currentQuestion];
-    questionEl.textContent = q.question;
-    choicesEl.innerHTML = "";
-    feedback.textContent = "";
+
+    questionElement.textContent = q.question;
+    choicesElement.innerHTML = "";
+    if (feedbackElement) feedbackElement.textContent = "";
 
     q.choices.forEach(choice => {
         const btn = document.createElement("button");
@@ -174,16 +184,15 @@ function loadQuizQuestion() {
     const isCorrect = choice === q.correct;
 
     if (isCorrect) {
-        feedback.textContent = "✅ Correct!";
+                if (feedbackElement) feedbackElement.textContent = "✅ Correct!";
         score++;
     } else {
-        feedback.textContent = "❌ Fout!";
+                if (feedbackElement) feedbackElement.textContent = "❌ Fout!";
     }
 
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (user && user.id) {
-        console.log("QUIZ OPSLAAN WORDT AANGEROEPEN");
         fetch("backend/save_quiz.php", {
             method: "POST",
             body: new URLSearchParams({
@@ -203,6 +212,8 @@ function loadQuizQuestion() {
     currentQuestion++;
     setTimeout(loadQuizQuestion, 800);
 };
+
+        choicesElement.appendChild(btn);
                 });
             }
 
