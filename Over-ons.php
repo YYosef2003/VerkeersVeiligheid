@@ -103,7 +103,7 @@
 </section>
 
 <footer>
-    <p>© 2026 Verkeersveiligheid | Samen veilig onderweg 🚀</p>
+    <p>© 2026 Verkeersveiligheid | Samen veilig onderweg 🚀 | Gemaakt door Stuart en Yosef</p>
 </footer>
 
 </body>

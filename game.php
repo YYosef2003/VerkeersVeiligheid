@@ -76,7 +76,7 @@
 </main>
 
 <footer>
-    <p>© 2026 Verkeersveiligheid</p>
+    <p>© 2026 Verkeersveiligheid | Gemaakt door Stuart en Yosef</p>
 </footer>
 
 <script src="js/game.js"></script>
