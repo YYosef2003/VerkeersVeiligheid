@@ -1,15 +1,11 @@
 
-/* ======================
-   ALGEMEEN
-===================== */
+
 let currentGame = null;
 let lastGame = null; 
 let score = 0;
 let lives = 3;
 
-/* ======================
-   ELEMENTEN
-===================== */
+
 const gameSelect = document.getElementById("game-select");
 const gameArea = document.getElementById("game-area");
 const gameTitle = document.getElementById("game-title");
@@ -23,21 +19,17 @@ const choicesEl = document.querySelector(".choices");
 const feedback = document.getElementById("feedback");
 const scoreEl = document.getElementById("score");
 
-// END SCREEN
+
 const endScreen = document.getElementById("end-screen");
 const endTitle = document.getElementById("end-title");
 const endScore = document.getElementById("end-score");
 
-/* ======================
-   OBSTACLE FIX STATE
-===================== */
+
 let obstacleInterval = null;
 let keys = {};
 let eventBound = false;
 
-/* ======================
-   START / MENU
-===================== */
+
 function startGame(game) {
     currentGame = game;
     lastGame = game;
@@ -54,7 +46,7 @@ function startGame(game) {
     obstacleWrapper.style.display = "none";
     memoryGame.style.display = "none";
 
-    // STOP ALLE RUNNING GAMES
+    
     if (obstacleInterval) {
         clearInterval(obstacleInterval);
         obstacleInterval = null;
@@ -91,22 +83,18 @@ function backToMenu() {
     endScreen.style.display = "none";
 }
 
-/* ======================
-   STATS
-===================== */
+
 function updateStats() {
     if (scoreEl) scoreEl.textContent = `Score: ${score}`;
 }
 
-/* ======================
-   EINDSCHERM
-===================== */
+
 function showEndScreen(title, finalScore) {
     quizGame.style.display = "none";
     obstacleWrapper.style.display = "none";
     memoryGame.style.display = "none";
 
-    gameArea.style.display = "none"; // 🔥 BELANGRIJK
+    gameArea.style.display = "none";
 
     endScreen.style.display = "block";
 
@@ -114,9 +102,7 @@ function showEndScreen(title, finalScore) {
     endScore.textContent = `Jouw score: ${finalScore}`;
 }
 
-/* ======================
-   QUIZ GAME
-===================== */
+
 let currentQuestion = 0;
 
 const quizQuestions = [
@@ -127,7 +113,7 @@ const quizQuestions = [
 {question:"Mag je fietsen op de stoep?",choices:["Ja","Nee"],correct:"Nee"},
 {question:"Wat betekent een stopbord?",choices:["Rustig rijden","Volledig stoppen","Gas geven"],correct:"Volledig stoppen"},
 {question:"Wat betekent een driehoekig bord?",choices:["Waarschuwing","Verplicht","Verbod"],correct:"Waarschuwing"},
-{question:"Wat betekent een rond rood bord?",choices:["Verbod","Advies","Informatie"],correct:"Verbod"},
+{question:"Wat betekent  dit bord ⛔?",choices:["Verbod","Advies","Informatie"],correct:"Verbod"},
 {question:"Wat betekent een blauw bord?",choices:["Verplicht","Verboden","Waarschuwing"],correct:"Verplicht"},
 {question:"Wat moet je doen bij een sirene?",choices:["Doorrijden","Stoppen en ruimte maken","Niets"],correct:"Stoppen en ruimte maken"},
 {question:"Wat betekent een fietspad bord?",choices:["Alleen fietsers","Auto's","Voetgangers"],correct:"Alleen fietsers"},
@@ -221,9 +207,7 @@ function loadQuizQuestion() {
 
             
 
-/* ======================
-   OBSTACLE GAME + COINS
-===================== */
+
 const canvas = document.getElementById("obstacle-game");
 const ctx = canvas ? canvas.getContext("2d") : null;
 
@@ -242,6 +226,13 @@ const coinImg = new Image();
 coinImg.src = "images/coin.png";
 
 function startObstacleGame() {
+     document.getElementById("obstacle-wrapper").scrollIntoView({
+        behavior: "smooth"
+    });
+
+    obstacleWrapper.style.display = "block";
+
+
     if (!canvas || !ctx) return;
 
     score = 0;
@@ -297,23 +288,21 @@ function gameLoop() {
 
     ctx.clearRect(0, 0, 500, 400);
 
-    // achtergrond
+    
     ctx.fillStyle = "#3b7a57";
     ctx.fillRect(0, 0, 500, 400);
 
-    // beweging
+    
     if (keys["ArrowLeft"]) car.x -= 6;
     if (keys["ArrowRight"]) car.x += 6;
 
     if (car.x < 0) car.x = 0;
     if (car.x + car.w > 500) car.x = 500 - car.w;
 
-    // auto tekenen
+   
     ctx.drawImage(carImg, car.x, car.y, car.w, car.h);
 
-    /* ======================
-       COINS SPAWN
-    ====================== */
+    
     if (Math.random() < 0.02) {
         coins.push({
             x: Math.random() * 450,
@@ -322,9 +311,7 @@ function gameLoop() {
         });
     }
 
-    /* ======================
-       OBSTAKELS SPAWN
-    ====================== */
+ 
     if (Math.random() < 0.03) {
         obstacles.push({
             x: Math.random() * 450,
@@ -334,9 +321,7 @@ function gameLoop() {
         });
     }
 
-    /* ======================
-       OBSTAKELS LOGICA
-    ====================== */
+    
     for (let i = obstacles.length - 1; i >= 0; i--) {
         const o = obstacles[i];
         o.y += obstacleSpeed;
@@ -366,9 +351,7 @@ function gameLoop() {
         }
     }
 
-    /* ======================
-       COINS LOGICA
-    ====================== */
+   
     for (let i = coins.length - 1; i >= 0; i--) {
         const c = coins[i];
         c.y += obstacleSpeed;

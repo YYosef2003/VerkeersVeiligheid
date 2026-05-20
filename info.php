@@ -99,7 +99,6 @@
 
     </section>
 
-    <!-- TELEFOON -->
     <section class="warning">
         <h3>📱 Telefoon & verkeer</h3>
         <p>
@@ -115,7 +114,7 @@
         </ul>
     </section>
 
-    <!-- CTA -->
+    
     <section class="cta">
         <h2>Leer het spelenderwijs 🎮</h2>
         <p>

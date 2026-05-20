@@ -5,7 +5,7 @@
     <title>Verkeersveiligheid | Contact</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* Extra styling speciaal voor contact pagina */
+       
         .contact-hero {
             position: relative;
             padding: 80px 20px;
@@ -102,7 +102,7 @@
 
 <main class="content">
 
-    <!-- HERO -->
+    
     <section class="contact-hero">
         <div class="emoji-bg-contact">
             <span>📱</span>
@@ -119,7 +119,6 @@
         </p>
     </section>
 
-    <!-- CONTACT FORM -->
     <form class="contact-form" onsubmit="return submitContactForm(event)">
         <label for="name">Naam 👤</label>
         <input type="text" id="name" name="name" placeholder="Jouw naam" required>

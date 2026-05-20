@@ -1,9 +1,4 @@
-/**
- * Shared navbar initialization script
- * Works with navbar.php to sync login state across all pages
- */
 
-// Initialize navbar on page load
 document.addEventListener('DOMContentLoaded', function() {
     updateNavbar();
 });
@@ -34,7 +29,7 @@ function updateNavbar() {
             clearUser();
         }
     } else {
-        // Show login/register, hide logout/profile
+        
         if (loggedUserSpan) loggedUserSpan.style.display = 'none';
         if (loginBtn) loginBtn.style.display = 'inline-block';
         if (registerBtn) registerBtn.style.display = 'inline-block';
@@ -51,10 +46,10 @@ function logout() {
     
     console.log('Logout clicked');
     
-    // Clear localStorage
+  
     localStorage.removeItem('user');
     
-    // Make logout request to server
+   
     fetch('backend/session_handler.php', {
         method: 'POST',
         body: new URLSearchParams({ action: 'logout' }),
@@ -63,14 +58,14 @@ function logout() {
     .then(res => res.json())
     .then(data => {
         console.log('Logout response:', data);
-        // Always redirect to index, regardless of response
+        
         setTimeout(() => {
             window.location.href = 'index.php';
         }, 200);
     })
     .catch(err => {
         console.error('Logout error:', err);
-        // Still redirect even if error
+       
         setTimeout(() => {
             window.location.href = 'index.php';
         }, 200);

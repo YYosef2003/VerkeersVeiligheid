@@ -12,7 +12,7 @@
 
 <main class="content">  
 
-    <!-- GAME MENU -->
+   
     <section id="game-select" class="game-selection">
 
         <div class="game-card" onclick="startGame('quiz')">
@@ -29,7 +29,7 @@
 
     </section>
 
-    <!-- GAME AREA -->
+ 
     <section id="game-area" class="game-container" style="display:none;">
 
         <h2 id="game-title"></h2>
@@ -40,7 +40,7 @@
             <div class="choices"></div>
         </div>
 
-        <!-- FIX: wrapper toegevoegd (nodig voor JS, geen game logica veranderd) -->
+       
         <div id="obstacle-wrapper" style="display:none;">
             <canvas id="obstacle-game" width="500" height="400"></canvas>
         </div>
@@ -60,7 +60,7 @@
 
     </section>
 
-  <!-- END SCREEN -->
+ 
     <section id="end-screen" class="game-container" style="display:none;">
 
         <h2 id="end-title"></h2>

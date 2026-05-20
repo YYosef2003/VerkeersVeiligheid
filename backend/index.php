@@ -1,5 +1,5 @@
 <?php
-// (optioneel) hier kun je later login/session toevoegen
+
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -12,7 +12,7 @@
 <body>
   <main class="container">
     
-    <!-- GAME -->
+   
     <section class="game-section">
       <h1>🐔 Crossy Road</h1>
       <p class="subtitle">Steek over, pak coins en haal de hoogste score.</p>
@@ -33,7 +33,7 @@
       <p id="message" class="message"></p>
     </section>
 
-    <!-- LEADERBOARD -->
+   
     <aside class="leaderboard-section">
       <h2>🏆 Leaderboard</h2>
       <button id="loadScoresBtn">Ververs highscores</button>
@@ -50,7 +50,7 @@
           </thead>
           <tbody id="highscoreTableBody">
             <?php
-            // direct scores tonen bij laden (optioneel)
+           
             try {
                 require "db.php";
 

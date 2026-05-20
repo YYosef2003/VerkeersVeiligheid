@@ -41,7 +41,7 @@ function login() {
     });
 }
 
-// Initialize on page load if needed
+
 document.addEventListener('DOMContentLoaded', function() {
     const user = JSON.parse(localStorage.getItem("user") || "{}");
     const loggedUser = document.getElementById("logged-user");

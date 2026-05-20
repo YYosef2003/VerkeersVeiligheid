@@ -1,6 +1,4 @@
-/* ======================
-   ALGEMENE STYLING
-====================== */
+
 * {
     margin: 0;
     padding: 0;
@@ -15,9 +13,7 @@ body {
     overflow-x: hidden;
 }
 
-/* ======================
-   HEADER
-====================== */
+
 header {
     background: #111;
     color: white;
@@ -42,9 +38,7 @@ nav a:hover {
     color: #00ffcc;
 }
 
-/* ======================
-   EMOJI ACHTERGROND
-====================== */
+
 .emoji-bg {
     position: absolute;
     inset: 0;
@@ -75,9 +69,7 @@ nav a:hover {
     to { transform: translateY(-120%); }
 }
 
-/* ======================
-   HERO
-====================== */
+
 .hero {
     position: relative;
     padding: 90px 20px;
@@ -116,9 +108,7 @@ nav a:hover {
     transform: scale(1.05);
 }
 
-/* ======================
-   INFO STRIP
-====================== */
+
 .info-strip {
     background: #111;
     color: #00ffcc;
@@ -128,9 +118,7 @@ nav a:hover {
     margin: 20px 0;
 }
 
-/* ======================
-   CARDS
-====================== */
+
 .cards, .game-selection, .info-grid {
     display: flex;
     gap: 25px;
@@ -173,9 +161,7 @@ nav a:hover {
     margin-bottom: 8px;
 }
 
-/* ======================
-   CONTENT
-====================== */
+
 .content {
     padding: 40px 20px;
     max-width: 1000px;
@@ -187,9 +173,7 @@ nav a:hover {
     color: #00b3ff;
 }
 
-/* ======================
-   WARNING
-====================== */
+
 .warning {
     background: #ffecec;
     padding: 30px;
@@ -197,9 +181,7 @@ nav a:hover {
     margin-bottom: 40px;
 }
 
-/* ======================
-   WARNING2
-====================== */
+
 .warning2 {
     background: #ffecec;
     padding: 30px;
@@ -209,9 +191,7 @@ nav a:hover {
     margin: 50px auto;
 }
 
-/* ======================
-   GAME AREA
-====================== */
+
 .game-container {
     max-width: 650px;
     margin: 50px auto;
@@ -268,20 +248,16 @@ nav a:hover {
     cursor: pointer;
 }
 
-/* ======================
-   GAME 5 – OBSTAKEL CANVAS
-====================== */
+
 #obstacle-game {
     display: block;
     margin: 20px auto;
     border-radius: 20px;
-    background: linear-gradient(#7ec850, #3b7a57); /* gras en weg effect */
+    background: linear-gradient(#7ec850, #3b7a57); 
     box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
-/* ======================
-   CTA
-====================== */
+
 .cta {
     text-align: center;
     padding: 40px 20px;
@@ -292,9 +268,7 @@ nav a:hover {
     color: #00b3ff;
 }
 
-/* ======================
-   FOOTER
-====================== */
+
 footer {
     margin-top: 60px;
     padding: 20px;

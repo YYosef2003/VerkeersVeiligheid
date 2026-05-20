@@ -9,7 +9,7 @@
 
 <?php include 'includes/navbar.php'; ?>
 
-<!-- HERO SECTIE -->
+
 <section class="hero">
     <div class="emoji-bg">
         <span>🚗</span>
@@ -30,7 +30,7 @@
     <a href="game.php" class="button">🎮 Speel de games</a>
 </section>
 
-<!-- INFO STRIP -->
+
 <section class="info-strip">
     <p>
         🚨 Wist je dat de meeste verkeersongelukken bij jongeren gebeuren door afleiding?
@@ -38,7 +38,7 @@
     </p>
 </section>
 
-<!-- CARDS SECTIE -->
+
 <section class="cards">
     <div class="card">
         <div class="card-emoji">📘</div>
@@ -59,7 +59,7 @@
     </div>
 </section>
 
-<!-- CALL TO ACTION -->
+
 <section class="hero">
     <div class="emoji-bg small">
         <span>🚦</span><span>⚠️</span><span>🚲</span><span>🚗</span>
