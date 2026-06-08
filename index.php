@@ -72,7 +72,7 @@
 </section>
 
 <footer>
-    <p>© 2026 Verkeersveiligheid | Gemaakt voor jongeren 🚀</p>
+    <p>© 2026 Verkeersveiligheid | Gemaakt voor jongeren 🚀 | Gemaakt door Stuart en Yosef</p>
 </footer>
 
 </body>

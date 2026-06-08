@@ -134,7 +134,7 @@
 </main>
 
 <footer>
-    <p>© 2026 Verkeersveiligheid | Stay safe ✨</p>
+    <p>© 2026 Verkeersveiligheid | Stay safe ✨ | Gemaakt door Stuart en Yosef</p>
 </footer>
 
 <script>
