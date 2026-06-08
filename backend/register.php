@@ -8,12 +8,33 @@
         exit;
     }
 
-    $username = $_POST['username'] ?? "";
-    $email = $_POST['email'] ?? "";
+    $username = trim($_POST['username'] ?? "");
+    $email = trim($_POST['email'] ?? "");
     $password = $_POST['password'] ?? "";
 
     if (!$username || !$email || !$password) {
         echo json_encode(["success" => false, "message" => "Vul alles in"]);
+        exit;
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo json_encode(["success" => false, "message" => "Voer een geldig e-mailadres in"]);
+        exit;
+    }
+
+    $emailDomain = substr(strrchr($email, "@"), 1);
+    if (!$emailDomain || !(checkdnsrr($emailDomain, "MX") || checkdnsrr($emailDomain, "A"))) {
+        echo json_encode(["success" => false, "message" => "Dit e-mailadres lijkt niet te bestaan"]);
+        exit;
+    }
+
+    $check = $conn->prepare("SELECT id FROM users WHERE username = ? OR email = ?");
+    $check->bind_param("ss", $username, $email);
+    $check->execute();
+    $result = $check->get_result();
+
+    if ($result->num_rows > 0) {
+        echo json_encode(["success" => false, "message" => "Gebruiker of email bestaat al"]);
         exit;
     }
 

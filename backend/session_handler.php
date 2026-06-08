@@ -42,12 +42,25 @@ if ($action === "login") {
     echo json_encode(["success" => true, "message" => "Uitgelogd"]);
 
 } elseif ($action === "register") {
-    $username = $_POST["username"] ?? "";
-    $email = $_POST["email"] ?? "";
+    $username = trim($_POST["username"] ?? "");
+    $email = trim($_POST["email"] ?? "");
     $password = $_POST["password"] ?? "";
 
     if (empty($username) || empty($email) || empty($password)) {
         echo json_encode(["success" => false, "message" => "Alle velden zijn verplicht"]);
+        exit;
+    }
+
+    // Controleert of het e-mailadres een geldig formaat heeft, bijvoorbeeld naam@gmail.com
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo json_encode(["success" => false, "message" => "Voer een geldig e-mailadres in"]);
+        exit;
+    }
+
+    // Controleert of het domein van het e-mailadres echt bestaat, bijvoorbeeld gmail.com of outlook.com
+    $emailDomain = substr(strrchr($email, "@"), 1);
+    if (!$emailDomain || !(checkdnsrr($emailDomain, "MX") || checkdnsrr($emailDomain, "A"))) {
+        echo json_encode(["success" => false, "message" => "Dit e-mailadres lijkt niet te bestaan"]);
         exit;
     }
 

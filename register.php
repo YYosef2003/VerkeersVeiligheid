@@ -23,6 +23,10 @@
             <input id="email" type="email" placeholder="E-mail" required
                 style="width:100%; padding:12px; margin:10px 0; border-radius:15px; border:1px solid #ccc;">
 
+            <small style="display:block; margin-bottom:10px; color:#555;">
+                Gebruik een echt e-mailadres, bijvoorbeeld naam@gmail.com
+            </small>
+
             <input id="password" type="password" placeholder="Wachtwoord" required
                 style="width:100%; padding:12px; margin:10px 0; border-radius:15px; border:1px solid #ccc;">
 
@@ -43,9 +47,16 @@
 
 <script>
 function register() {
-    const username = document.getElementById('username').value;
-    const email = document.getElementById('email').value;
+    const username = document.getElementById('username').value.trim();
+    const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
+
+    const emailCheck = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailCheck.test(email)) {
+        alert('Voer een geldig e-mailadres in, bijvoorbeeld naam@gmail.com');
+        return;
+    }
 
     fetch('backend/session_handler.php', {
         method: 'POST',

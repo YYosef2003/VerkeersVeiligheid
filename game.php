@@ -15,16 +15,40 @@
    
     <section id="game-select" class="game-selection">
 
-        <div class="game-card" onclick="startGame('quiz')">
+        <div class="game-card" data-game="quiz" onclick="startGame('quiz')">
             <div class="game-emoji">🚦</div>
             <h3>Verkeersquiz</h3>
             <p>Test je kennis met 35+ verkeersvragen.</p>
         </div>
 
-        <div class="game-card" onclick="startGame('obstacle')">
+        <div class="game-card" data-game="obstacle" onclick="startGame('obstacle')">
             <div class="game-emoji">🚗</div>
             <h3>Obstakel game</h3>
             <p>Rijd en ontwijk obstakels zo lang mogelijk.</p>
+        </div>
+
+        <div class="game-card" data-game="reaction" onclick="startGame('reaction')">
+            <div class="game-emoji">⚡</div>
+            <h3>Reactie test</h3>
+            <p>Klik zo snel mogelijk als het verkeerslicht groen wordt.</p>
+        </div>
+
+        <div class="game-card" data-game="hazard" onclick="startGame('hazard')">
+            <div class="game-emoji">⚠️</div>
+            <h3>Gevaar herkennen</h3>
+            <p>Kies wat je moet doen in gevaarlijke verkeerssituaties.</p>
+        </div>
+
+        <div class="game-card" data-game="signs" onclick="startGame('signs')">
+            <div class="game-emoji">🪧</div>
+            <h3>Verkeersborden raden</h3>
+            <p>Kijk naar het bord en kies de juiste betekenis.</p>
+        </div>
+
+        <div class="game-card" data-game="priority" onclick="startGame('priority')">
+            <div class="game-emoji">🚸</div>
+            <h3>Voorrang kiezen</h3>
+            <p>Lees de situatie en kies wie er voorrang heeft.</p>
         </div>
 
     </section>
@@ -79,7 +103,7 @@
     <p>© 2026 Verkeersveiligheid | Gemaakt door Stuart en Yosef</p>
 </footer>
 
-<script src="js/game.js"></script>
+<script src="js/game.js?v=5"></script>
 
 
 

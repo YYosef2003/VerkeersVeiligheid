@@ -36,7 +36,7 @@
     
     <section class="info-grid">
 
-        <div class="info-card">
+        <div class="info-card clickable-info" onclick="window.location.href='fietsers.php'">
             <h3>🚲 Fietsers & E-steps</h3>
             <ul>
                 <li>💡 Goede verlichting voor en achter</li>
@@ -48,7 +48,7 @@
             </ul>
         </div>
 
-        <div class="info-card">
+        <div class="info-card clickable-info" onclick="window.location.href='voetgangers.php'">
             <h3>🚶 Voetgangers</h3>
             <ul>
                 <li>👀 Kijk links, rechts, links</li>
@@ -59,7 +59,7 @@
             </ul>
         </div>
 
-        <div class="info-card">
+        <div class="info-card clickable-info" onclick="window.location.href='automobilisten.php'">
             <h3>🚗 Automobilisten</h3>
             <ul>
                 <li>⏱️ Houd je aan de snelheid</li>
@@ -70,7 +70,7 @@
             </ul>
         </div>
 
-        <div class="info-card">
+        <div class="info-card clickable-info" onclick="window.location.href='afleiding.php'">
             <h3>📱 Afleiding & social media</h3>
             <ul>
                 <li>❌ Appen of scrollen tijdens verkeer is levensgevaarlijk</li>
@@ -79,7 +79,7 @@
             </ul>
         </div>
 
-        <div class="info-card">
+        <div class="info-card clickable-info" onclick="window.location.href='zichtbaarheid.php'">
             <h3>🌙 Zichtbaarheid</h3>
             <ul>
                 <li>💡 Reflecterende kleding dragen in het donker</li>
@@ -88,7 +88,7 @@
             </ul>
         </div>
 
-        <div class="info-card">
+        <div class="info-card clickable-info" onclick="window.location.href='gevaarlijke-situaties.php'">
             <h3>⚠️ Gevaarlijke situaties</h3>
             <ul>
                 <li>🚧 Let op wegwerkzaamheden</li>
@@ -97,6 +97,13 @@
             </ul>
         </div>
 
+    </section>
+
+    <section id="info-detail" class="info-detail" style="display:none;">
+        <h2 id="info-detail-title"></h2>
+        <p id="info-detail-text"></p>
+        <ul id="info-detail-list"></ul>
+        <button class="back-btn" onclick="closeInfoDetail()">Sluiten</button>
     </section>
 
     <section class="warning">
@@ -130,5 +137,53 @@
     <p>© 2026 Verkeersveiligheid | Stay safe ✨</p>
 </footer>
 
+<script>
+const infoDetails = {
+    fiets: {
+        title: "🚲 Fietsers & E-steps",
+        text: "Als fietser of stepper ben je kwetsbaar, omdat auto's jou soms te laat zien. Daarom moet je goed zichtbaar zijn en voorspelbaar rijden.",
+        points: ["Gebruik altijd verlichting in het donker.", "Geef richting aan met je hand.", "Gebruik geen telefoon tijdens het rijden.", "Rem eerder bij regen of gladheid."]
+    },
+    voetganger: {
+        title: "🚶 Voetgangers",
+        text: "Voetgangers hebben vaak voorrang op een zebrapad, maar je moet altijd blijven kijken of verkeer echt stopt.",
+        points: ["Kijk links, rechts en nog een keer links.", "Steek niet over terwijl je op je telefoon kijkt.", "Gebruik een zebrapad of verkeerslicht.", "Draag iets lichts of reflecterend in het donker."]
+    },
+    auto: {
+        title: "🚗 Automobilisten",
+        text: "Automobilisten moeten extra opletten bij scholen, kruispunten, fietsers en voetgangers. Snelheid bepaalt hoe hard een botsing aankomt.",
+        points: ["Houd afstand.", "Stop voor zebrapaden.", "Kijk goed in je spiegels.", "Rijd langzamer bij slecht weer of drukte."]
+    },
+    afleiding: {
+        title: "📱 Afleiding & social media",
+        text: "Een paar seconden naar je telefoon kijken kan al genoeg zijn om een gevaarlijke situatie te missen.",
+        points: ["Leg je telefoon weg voordat je vertrekt.", "Film niet tijdens het fietsen of rijden.", "Laat je niet opjutten door vrienden.", "Stop veilig als je echt moet bellen."]
+    },
+    zichtbaarheid: {
+        title: "🌙 Zichtbaarheid",
+        text: "In het donker of bij regen zien bestuurders jou veel minder goed. Verlichting en reflectie maken daarom veel verschil.",
+        points: ["Zet fietsverlichting aan.", "Draag reflecterende kleding of tas.", "Controleer of je lampen werken.", "Blijf op goed verlichte routes als dat kan."]
+    },
+    gevaar: {
+        title: "⚠️ Gevaarlijke situaties",
+        text: "Bij scholen, kruispunten en wegwerkzaamheden verandert het verkeer snel. Daar moet je extra opletten.",
+        points: ["Rijd rustiger bij drukke plekken.", "Let op onverwachte bewegingen van anderen.", "Houd rekening met regen, sneeuw of gladheid.", "Kijk vooruit en maak op tijd ruimte."]
+    }
+};
+
+function showInfoDetail(type) {
+    const detail = infoDetails[type];
+    if (!detail) return;
+    document.getElementById("info-detail-title").textContent = detail.title;
+    document.getElementById("info-detail-text").textContent = detail.text;
+    document.getElementById("info-detail-list").innerHTML = detail.points.map(point => `<li>${point}</li>`).join("");
+    document.getElementById("info-detail").style.display = "block";
+    document.getElementById("info-detail").scrollIntoView({ behavior: "smooth" });
+}
+
+function closeInfoDetail() {
+    document.getElementById("info-detail").style.display = "none";
+}
+</script>
 </body>
 </html>

@@ -40,22 +40,22 @@
 
 
 <section class="cards">
-    <div class="card">
+    <div class="card" onclick="window.location.href='info.php'" style="cursor:pointer;">
         <div class="card-emoji">📘</div>
         <h3>Leren</h3>
         <p>Ontdek verkeersregels, borden en gevaarlijke situaties.</p>
     </div>
 
-    <div class="card">
+    <div class="card" onclick="window.location.href='game.php'" style="cursor:pointer;">
         <div class="card-emoji">🧠</div>
         <h3>Oefenen</h3>
         <p>Train je brein met quizzen en realistische verkeersscenario’s.</p>
     </div>
 
-    <div class="card">
+    <div class="card" onclick="window.location.href='highscores.php'" style="cursor:pointer;">
         <div class="card-emoji">🏆</div>
         <h3>Verbeteren</h3>
-        <p>Verdien scores, levels en word steeds veiliger in het verkeer.</p>
+        <p>Bekijk je highscores, vergelijk je resultaten en verbeter jezelf.</p>
     </div>
 </section>
 
